@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, Button, Pressable } from "react-native";
 import React, { useState } from "react";
 import { Ionicons, SimpleLineIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 const Screen2 = ({ route }) => {
+  const navigation = useNavigation();
   const { item } = route.params;
   const [number, setNumber] = useState(1);
   const numberup = () => {
@@ -69,7 +71,7 @@ const Screen2 = ({ route }) => {
           </Text>
 
         <View style={{width:'100%',height:60, backgroundColor:"#F1B000", borderRadius:10,marginTop:20}}>
-          <Pressable style={{flex:1,justifyContent:"center",alignItems:"center"}}>
+          <Pressable style={{flex:1,justifyContent:"center",alignItems:"center"}} onPress={()=>{ navigation.navigate("Screen1")}}>
            <Text style={{color:'white',fontSize:18,fontWeight:"bold"}}>Add to card</Text> 
           </Pressable>
         </View>

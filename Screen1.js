@@ -15,13 +15,17 @@ function Screen1() {
   var [data, setData] = useState([]);
   const [text, setText] = useState("");
   const navigation = useNavigation();
-  useEffect(() => {
-    fetch("https://654196bff0b8287df1fe827b.mockapi.io/bonus")
+  var url = "https://654196bff0b8287df1fe827b.mockapi.io/bonus";
+  // Fetch data when component mounts
+  var fetchData = () => {
+    fetch(url)
       .then((response) => response.json())
       .then((json) => {
         setData(json);
       });
-  }, []);
+  };
+
+  useEffect(fetchData, []);
   return (
     <View style={styles.container}>
       <View style={{ marginVertical: 10 }}>
@@ -67,7 +71,6 @@ function Screen1() {
               borderWidth: 1,
               borderColor: "gray",
               width: 90,
-              marginLeft: 20,
               height: "30px",
               alignItems: "center",
               justifyContent: "center",
@@ -80,7 +83,6 @@ function Screen1() {
               borderWidth: 1,
               borderColor: "gray",
               width: 90,
-              marginLeft: 20,
               height: "30px",
               alignItems: "center",
               justifyContent: "center",
@@ -88,11 +90,41 @@ function Screen1() {
           >
             Floating
           </Pressable>
+          <Pressable
+            style={{
+              borderWidth: 1,
+              borderColor: "gray",
+              width: 90,
+              height: "30px",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() =>
+              fetch(url, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  title: "Cake birth day",
+                  description: "New Item",
+                  price: "34$",
+                  image:
+                    "https://images.unsplash.com/photo-1606983340126-99ab4feaa64a?auto=format&fit=crop&q=80&w=1000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8OXx8fGVufDB8fHx8fA%3D%3D",
+                }),
+              })
+                .then((response) => response.json())
+                .then(() =>  fetchData())
+            }
+          >
+            Insert
+          </Pressable>
         </View>
       </View>
       {data.map((item) => {
         return (
-          <View key={item.id}
+          <View
+            key={item.id}
             style={{
               flexDirection: "row",
               marginTop: 20,
@@ -125,6 +157,55 @@ function Screen1() {
               </Text>
               <Text style>{item.price}</Text>
             </View>
+            <View style={{ position: "absolute", right: 50,bottom:0 }}>
+              <Pressable
+                style={{
+                  width: 50,
+                  height: 45,
+                  backgroundColor: "#C0C0C0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 10,
+                }}
+                onPress={() => {
+                  fetch(url + "/" + item.id, {
+                    method: "DELETE",
+                  }).then(() => {
+                    fetchData();
+                  });
+                }}
+              >
+                <Text>Delete</Text>
+              </Pressable>
+            </View>
+            <View style={{ position: "absolute", right: 110,bottom:0 }}>
+              <Pressable
+                style={{
+                  width: 50,
+                  height: 45,
+                  backgroundColor: "#C0C0C0",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 10,
+                }}
+                onPress={() => {
+                  let dataToUpdate = {title: 'Birth day cake', description: 'Updated Description', price: "15$",image:"https://handletheheat.com/wp-content/uploads/2015/03/Best-Birthday-Cake-with-milk-chocolate-buttercream-SQUARE.jpg"};
+                  fetch(url + "/" + item.id, {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(dataToUpdate),
+                  })
+                  .then((res)=> res.json())
+                  .then(() => {
+                    fetchData();
+                  });
+                }}
+              >
+                <Text>Update</Text>
+              </Pressable>
+            </View>
             <View
               style={{
                 position: "absolute",
@@ -136,9 +217,11 @@ function Screen1() {
                 borderTopLeftRadius: 90,
               }}
             >
-              <Pressable onPress={()=>{
-                  navigation.navigate("Screen2",{item:item})
-              }}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Screen2", { item: item });
+                }}
+              >
                 <Ionicons name="add" size={40} color={"white"} />
               </Pressable>
             </View>
