@@ -15,6 +15,7 @@ function Screen1() {
   var [data, setData] = useState([]);
   const [text, setText] = useState("");
   const navigation = useNavigation();
+  
   var url = "https://654196bff0b8287df1fe827b.mockapi.io/bonus";
   // Fetch data when component mounts
   var fetchData = () => {
@@ -22,7 +23,8 @@ function Screen1() {
       .then((response) => response.json())
       .then((json) => {
         setData(json);
-      });
+      }).catch(err=> console.log(err));
+      
   };
 
   useEffect(fetchData, []);

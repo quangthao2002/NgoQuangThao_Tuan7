@@ -21,7 +21,7 @@
 	</context:component-scan>
 
 	<!-- 4: Add support for conversion, formatting and validation support -->
-	<mvc:annotation-driven></mvc:annotation-driven>
+	<mvc:annotation-driven/>
 	<!-- 5: Define Spring MVC view resolver: ViewResolver (xử lý View), các 
 		View là tập tin JSP được ánh xạ từ thư mục /WEB-INF/view/ -->
 	<bean
@@ -38,7 +38,7 @@
 		<property name="driverClass"
 			value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
 		<property name="jdbcUrl"
-			value="jdbc:sqlserver://localhost:1433;databaseName=MyDatabase" />
+			value="jdbc:sqlserver://localhost:1433;databaseName=NgoQuangThao" />
 		<property name="user" value="sa" />
 		<property name="password" value="123" />
 		<!-- these are connection pool properties for C3P0 -->

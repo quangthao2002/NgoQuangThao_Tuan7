@@ -6,7 +6,7 @@ import Screen2 from "./Screen2";
 import { StyleSheet } from "react-native";
 
 export default function App() {
-  var stack = createNativeStackNavigator();
+  var stack = createNativeStackNavigator()
   return (
     <NavigationContainer>
       <stack.Navigator screenOptions={{headerShown:false}}>
